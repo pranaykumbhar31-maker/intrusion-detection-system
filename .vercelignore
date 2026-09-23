@@ -1,0 +1,15 @@
+# Vercel deployment ignore file
+# Excludes heavy raw dataset and training scripts to keep bundle size lightweight (< 250 MB)
+
+data/
+.git
+.gitignore
+__pycache__
+*.pyc
+*.pyo
+venv/
+.venv/
+test_app.py
+train_model.py
+generate_project_pdf.py
+scratch/
