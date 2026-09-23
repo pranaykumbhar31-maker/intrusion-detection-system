@@ -12,10 +12,16 @@ import time
 from flask import Flask, render_template, request, jsonify, send_file
 from predict import predict_traffic, PRESET_SAMPLES, MODEL_PATH, PREPROCESSOR_PATH
 
-app = Flask(__name__)
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
 METRICS_PATH = os.path.join(BASE_DIR, 'results', 'model_metrics.json')
+
+app = Flask(
+    __name__,
+    template_folder=TEMPLATES_DIR,
+    static_folder=STATIC_DIR
+)
 
 # Session / runtime state for dashboard counters & history
 runtime_stats = {
@@ -46,6 +52,7 @@ def is_model_ready():
 # Frontend Page Routes
 # ---------------------------------------------------------------------------
 @app.route('/')
+@app.route('/api/index')
 def index():
     """Home / Dashboard Page."""
     metrics = load_model_metrics()
