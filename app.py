@@ -55,14 +55,6 @@ def is_model_ready():
 @app.route('/api/index')
 def index():
     """Home / Dashboard Page."""
-    if request.args.get('debug') == '1':
-        return jsonify({
-            "PATH_INFO": request.environ.get('PATH_INFO'),
-            "SCRIPT_NAME": request.environ.get('SCRIPT_NAME'),
-            "REQUEST_URI": request.environ.get('REQUEST_URI'),
-            "RAW_URI": request.environ.get('RAW_URI'),
-            "headers": {k: v for k, v in request.headers.items()}
-        })
     metrics = load_model_metrics()
     ready = is_model_ready()
     return render_template(

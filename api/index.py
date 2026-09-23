@@ -1,11 +1,12 @@
 """
 Vercel Serverless Function entry point for Flask.
 Exposes the WSGI application instance wrapped with a middleware
-that normalizes Vercel's rewritten paths (x-matched-path / /api/index).
+that restores the original request path from Vercel's rewrite query parameter.
 """
 
 import os
 import sys
+import urllib.parse
 
 # Ensure root directory is in Python path for absolute imports
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -16,32 +17,29 @@ if ROOT_DIR not in sys.path:
 from app import app
 
 
-class VercelPathMiddleware:
+class VercelRewriteMiddleware:
     """
-    Middleware that fixes path routing on Vercel:
-    1. If Vercel passed the original URL in HTTP_X_MATCHED_PATH, use that.
-    2. If PATH_INFO starts with /api/index, strip it so Flask matches root routes.
+    Restores the real URL path requested by the client from Vercel's rewrite (__path=/$1).
     """
     def __init__(self, wsgi_app):
         self.wsgi_app = wsgi_app
 
     def __call__(self, environ, start_response):
-        matched_path = environ.get('HTTP_X_MATCHED_PATH')
-        if matched_path:
-            environ['PATH_INFO'] = matched_path
-        else:
-            path_info = environ.get('PATH_INFO', '')
-            for prefix in ['/api/index.py', '/api/index']:
-                if path_info.startswith(prefix):
-                    remainder = path_info[len(prefix):]
-                    environ['PATH_INFO'] = remainder if (remainder and remainder.startswith('/')) else ('/' + remainder.lstrip('/'))
-                    break
+        qs = environ.get('QUERY_STRING', '')
+        if qs:
+            params = urllib.parse.parse_qs(qs, keep_blank_values=True)
+            if '__path' in params:
+                path_val = params.pop('__path')[0]
+                if not path_val.startswith('/'):
+                    path_val = '/' + path_val
+                environ['PATH_INFO'] = path_val
+                environ['QUERY_STRING'] = urllib.parse.urlencode(params, doseq=True)
 
         return self.wsgi_app(environ, start_response)
 
 
 # Wrap Flask's WSGI callable with path normalizer
-app.wsgi_app = VercelPathMiddleware(app.wsgi_app)
+app.wsgi_app = VercelRewriteMiddleware(app.wsgi_app)
 
 if __name__ == '__main__':
     app.run()
