@@ -52,7 +52,6 @@ def is_model_ready():
 # Frontend Page Routes
 # ---------------------------------------------------------------------------
 @app.route('/')
-@app.route('/api/index')
 def index():
     """Home / Dashboard Page."""
     metrics = load_model_metrics()
