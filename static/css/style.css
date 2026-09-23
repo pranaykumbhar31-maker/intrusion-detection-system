@@ -1,0 +1,253 @@
+/* ==========================================================================
+   Intrusion Detection System (IDS) - Modern Cybersecurity Theme
+   ========================================================================== */
+
+:root {
+    --cyber-bg-darkest: #090d14;
+    --cyber-bg-dark: #0f1724;
+    --cyber-bg-card: #152033;
+    --cyber-border: #1f304a;
+    --cyber-border-hover: #2e476e;
+    --cyber-primary: #00d2ff;
+    --cyber-primary-hover: #3ad9ff;
+    --cyber-accent: #00e676;
+    --cyber-danger: #ff2a5f;
+    --cyber-warning: #ffb703;
+    --cyber-purple: #9d4edd;
+}
+
+body.bg-cyber-dark {
+    background-color: var(--cyber-bg-dark) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.bg-cyber-darker {
+    background-color: var(--cyber-bg-darkest) !important;
+}
+
+.bg-cyber-nav {
+    background-color: rgba(15, 23, 36, 0.92) !important;
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.text-cyber-primary {
+    color: var(--cyber-primary) !important;
+}
+
+.text-cyber-accent {
+    color: var(--cyber-accent) !important;
+}
+
+.bg-purple-subtle {
+    background-color: rgba(157, 78, 221, 0.15) !important;
+}
+
+.text-purple {
+    color: #c77dff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Cards & Layout Components
+   -------------------------------------------------------------------------- */
+.cyber-card {
+    background-color: var(--cyber-bg-card);
+    border: 1px solid var(--cyber-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cyber-card:hover {
+    border-color: var(--cyber-border-hover);
+}
+
+.border-accent-glow {
+    border: 1px solid rgba(0, 230, 118, 0.35) !important;
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.12) !important;
+}
+
+.shield-icon {
+    font-size: 1.4rem;
+    color: var(--cyber-accent);
+}
+
+.pulse-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+    }
+    70% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 6px rgba(0, 230, 118, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 230, 118, 0);
+    }
+}
+
+.legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons & Form Inputs
+   -------------------------------------------------------------------------- */
+.btn-cyber-primary {
+    background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+}
+
+.btn-cyber-primary:hover {
+    background: linear-gradient(135deg, #00c6eb 0%, #0096c7 100%);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.35);
+}
+
+.btn-cyber-primary:active {
+    transform: translateY(0);
+}
+
+.preset-btn {
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.preset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cyber-input {
+    background-color: #0b121d !important;
+    border: 1px solid #23344d !important;
+    color: #f1f5f9 !important;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cyber-input:focus {
+    background-color: #0d1624 !important;
+    border-color: var(--cyber-primary) !important;
+    box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+
+.cyber-input option {
+    background-color: #0b121d;
+    color: #f1f5f9;
+}
+
+/* --------------------------------------------------------------------------
+   Prediction Result Banners
+   -------------------------------------------------------------------------- */
+.result-banner {
+    transition: all 0.3s ease;
+}
+
+.result-banner.normal {
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.15) 0%, rgba(15, 23, 36, 0.6) 100%);
+    border: 2px solid var(--cyber-accent);
+    box-shadow: 0 0 25px rgba(0, 230, 118, 0.25);
+    color: var(--cyber-accent);
+}
+
+.result-banner.intrusion {
+    background: linear-gradient(135deg, rgba(255, 42, 95, 0.18) 0%, rgba(15, 23, 36, 0.6) 100%);
+    border: 2px solid var(--cyber-danger);
+    box-shadow: 0 0 25px rgba(255, 42, 95, 0.3);
+    color: var(--cyber-danger);
+}
+
+.result-icon-wrapper {
+    font-size: 3.5rem;
+}
+
+.letter-spacing-1 {
+    letter-spacing: 1.5px;
+}
+
+/* --------------------------------------------------------------------------
+   Confusion Matrix & Tables
+   -------------------------------------------------------------------------- */
+.cm-cell {
+    transition: transform 0.2s ease;
+}
+
+.cm-cell:hover {
+    transform: scale(1.03);
+}
+
+.cm-tn {
+    background-color: rgba(0, 230, 118, 0.08);
+}
+
+.cm-fp {
+    background-color: rgba(255, 183, 3, 0.08);
+}
+
+.cm-fn {
+    background-color: rgba(255, 42, 95, 0.08);
+}
+
+.cm-tp {
+    background-color: rgba(0, 230, 118, 0.12);
+}
+
+.table-cyber {
+    --bs-table-bg: transparent;
+    --bs-table-border-color: #1f304a;
+    font-size: 0.88rem;
+}
+
+.table-cyber th {
+    background-color: #0b121d;
+    border-bottom: 2px solid #283e5e;
+}
+
+/* --------------------------------------------------------------------------
+   Accordion
+   -------------------------------------------------------------------------- */
+.cyber-accordion .accordion-button {
+    border-radius: 8px;
+    font-size: 0.95rem;
+    box-shadow: none;
+}
+
+.cyber-accordion .accordion-button:not(.collapsed) {
+    background-color: #1c2b42 !important;
+    color: var(--cyber-primary) !important;
+    border-bottom: 1px solid var(--cyber-border);
+}
+
+.cyber-accordion .accordion-button::after {
+    filter: invert(1);
+}

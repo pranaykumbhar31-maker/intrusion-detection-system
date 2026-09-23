@@ -1,0 +1,394 @@
+{% extends "base.html" %}
+
+{% block title %}About System & Viva Guide | Machine Learning IDS{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom border-secondary-subtle">
+    <div>
+        <h1 class="h2 fw-bold text-white mb-1 d-flex align-items-center gap-2">
+            <i class="bi bi-info-circle-fill text-cyber-primary"></i>
+            About the System & Practical Viva Guide
+        </h1>
+        <p class="text-secondary mb-0">
+            Comprehensive academic background, architectural workflow, and ready-to-answer viva questions for college practicals.
+        </p>
+    </div>
+    <div>
+        <a href="{{ url_for('download_guide') }}" class="btn btn-outline-info px-3 py-2 fw-semibold shadow-sm">
+            <i class="bi bi-file-earmark-pdf-fill me-1"></i> Download PDF Guide
+        </a>
+    </div>
+</div>
+
+<!-- 6 Core Concept Cards -->
+<div class="row g-4 mb-4">
+    <!-- 1. What is an IDS? -->
+    <div class="col-md-6 col-lg-4">
+        <div class="cyber-card p-4 h-100">
+            <div class="d-flex align-items-center gap-2 text-cyber-primary fw-bold mb-2">
+                <i class="bi bi-shield-shaded fs-5"></i>
+                <span>1. What is an IDS?</span>
+            </div>
+            <p class="text-secondary small mb-0 lh-base">
+                An <strong>Intrusion Detection System (IDS)</strong> is a software application or device that monitors network traffic and computer systems for malicious activity, policy violations, or unauthorized access attempts. Upon detecting suspicious patterns, it alerts system administrators or triggers defensive responses.
+            </p>
+        </div>
+    </div>
+
+    <!-- 2. What is Machine Learning? -->
+    <div class="col-md-6 col-lg-4">
+        <div class="cyber-card p-4 h-100">
+            <div class="d-flex align-items-center gap-2 text-cyber-primary fw-bold mb-2">
+                <i class="bi bi-cpu fs-5"></i>
+                <span>2. What is Machine Learning?</span>
+            </div>
+            <p class="text-secondary small mb-0 lh-base">
+                <strong>Machine Learning (ML)</strong> is a branch of Artificial Intelligence where algorithms automatically learn statistical patterns and decision boundaries from historical data (training data) to make predictions on unseen data, without being explicitly programmed with rigid hardcoded rules.
+            </p>
+        </div>
+    </div>
+
+    <!-- 3. How this project detects attacks -->
+    <div class="col-md-6 col-lg-4">
+        <div class="cyber-card p-4 h-100">
+            <div class="d-flex align-items-center gap-2 text-cyber-primary fw-bold mb-2">
+                <i class="bi bi-radar fs-5"></i>
+                <span>3. How this Project Detects Attacks</span>
+            </div>
+            <p class="text-secondary small mb-0 lh-base">
+                Network packets are characterized by statistical features (protocol, connection duration, byte counts, TCP handshake flags, connection rates). The trained <strong>Random Forest</strong> evaluates these mathematical features simultaneously to distinguish legitimate sessions from DoS attacks, probes, and scans.
+            </p>
+        </div>
+    </div>
+
+    <!-- 4. Why Random Forest? -->
+    <div class="col-md-6 col-lg-4">
+        <div class="cyber-card p-4 h-100">
+            <div class="d-flex align-items-center gap-2 text-cyber-accent fw-bold mb-2">
+                <i class="bi bi-diagram-3 fs-5"></i>
+                <span>4. Why Random Forest was Selected</span>
+            </div>
+            <p class="text-secondary small mb-0 lh-base">
+                Random Forest is an ensemble of decision trees utilizing <em>bagging (Bootstrap Aggregation)</em>. It excels on tabular network data, handles mixed categorical and continuous variables, is resistant to overfitting, and provides interpretable feature importances ideal for viva defense.
+            </p>
+        </div>
+    </div>
+
+    <!-- 5. NSL-KDD Dataset -->
+    <div class="col-md-6 col-lg-4">
+        <div class="cyber-card p-4 h-100">
+            <div class="d-flex align-items-center gap-2 text-cyber-accent fw-bold mb-2">
+                <i class="bi bi-database-check fs-5"></i>
+                <span>5. The NSL-KDD Dataset</span>
+            </div>
+            <p class="text-secondary small mb-0 lh-base">
+                The <strong>NSL-KDD</strong> dataset is the widely recognized academic benchmark solving redundancy issues in the older KDD Cup 99 dataset. It contains labeled network connection records across normal traffic and major attack families: Denial of Service (DoS), Probing (Scan), U2R, and R2L.
+            </p>
+        </div>
+    </div>
+
+    <!-- 6. Technology Stack -->
+    <div class="col-md-6 col-lg-4">
+        <div class="cyber-card p-4 h-100">
+            <div class="d-flex align-items-center gap-2 text-cyber-accent fw-bold mb-2">
+                <i class="bi bi-layers-half fs-5"></i>
+                <span>6. Technology Stack Used</span>
+            </div>
+            <p class="text-secondary small mb-0 lh-base">
+                <strong>Backend:</strong> Python 3, Flask framework, Joblib.<br>
+                <strong>Machine Learning:</strong> Scikit-learn, Pandas, NumPy.<br>
+                <strong>Frontend:</strong> HTML5, CSS3, JavaScript, Bootstrap 5, Chart.js.<br>
+                <strong>Model Storage:</strong> Serialized pickle/joblib binary files.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Architectural Workflow Diagram -->
+<div class="cyber-card p-4 mb-4">
+    <h5 class="fw-bold text-white mb-3">
+        <i class="bi bi-diagram-2-fill text-cyber-primary me-2"></i>
+        End-to-End Machine Learning Pipeline Architecture
+    </h5>
+    
+    <div class="row g-3 text-center">
+        <div class="col-md-2">
+            <div class="p-3 rounded-2 bg-dark-subtle border border-secondary-subtle h-100">
+                <div class="badge bg-primary mb-2">Step 1</div>
+                <div class="fw-bold text-white small">NSL-KDD Dataset</div>
+                <div class="text-secondary small mt-1" style="font-size: 0.75rem;">data/KDDTrain+.txt</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="p-3 rounded-2 bg-dark-subtle border border-secondary-subtle h-100">
+                <div class="badge bg-info text-dark mb-2">Step 2</div>
+                <div class="fw-bold text-white small">Preprocessing</div>
+                <div class="text-secondary small mt-1" style="font-size: 0.75rem;">One-Hot + StandardScaler</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="p-3 rounded-2 bg-dark-subtle border border-secondary-subtle h-100">
+                <div class="badge bg-warning text-dark mb-2">Step 3</div>
+                <div class="fw-bold text-white small">Random Forest</div>
+                <div class="text-secondary small mt-1" style="font-size: 0.75rem;">100 Trees, Depth=15</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="p-3 rounded-2 bg-dark-subtle border border-secondary-subtle h-100">
+                <div class="badge bg-success mb-2">Step 4</div>
+                <div class="fw-bold text-white small">Model Serialization</div>
+                <div class="text-secondary small mt-1" style="font-size: 0.75rem;">joblib dump to model/</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="p-3 rounded-2 bg-dark-subtle border border-secondary-subtle h-100">
+                <div class="badge bg-purple mb-2">Step 5</div>
+                <div class="fw-bold text-white small">Flask REST API</div>
+                <div class="text-secondary small mt-1" style="font-size: 0.75rem;">POST /api/predict</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="p-3 rounded-2 bg-dark-subtle border border-secondary-subtle h-100">
+                <div class="badge bg-danger mb-2">Step 6</div>
+                <div class="fw-bold text-white small">Web Interface</div>
+                <div class="text-secondary small mt-1" style="font-size: 0.75rem;">NORMAL vs INTRUSION</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Viva Q&A Accordion (Extremely Helpful for Student Practicals) -->
+<div class="cyber-card p-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h5 class="fw-bold text-white mb-0">
+            <i class="bi bi-question-diamond-fill text-warning me-2"></i>
+            Practical / Viva Examination Q&A Cheat Sheet
+        </h5>
+        <span class="badge bg-warning-subtle text-warning small">14 Viva Questions Answered</span>
+    </div>
+    <p class="text-secondary small mb-4">
+        Clear, examiner-approved answers to the most frequently asked questions during practical exams.
+    </p>
+
+    <div class="accordion accordion-flush cyber-accordion" id="vivaAccordion">
+        
+        <!-- Q1 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ1">
+                    <strong>Q1: What is an Intrusion Detection System (IDS)?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ1" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    An IDS is a cybersecurity defense tool that monitors network packets or system logs in real-time to detect malicious activities, unauthorized access attempts, and policy violations. It can be Network-based (NIDS) or Host-based (HIDS).
+                </div>
+            </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ2">
+                    <strong>Q2: What is an Intrusion?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ2" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    An intrusion is any unauthorized, illegitimate, or malicious action that compromises the confidentiality, integrity, or availability (CIA triad) of a computer network or system (e.g., Denial of Service, brute force login, port scanning).
+                </div>
+            </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ3">
+                    <strong>Q3: Why did you use Machine Learning instead of traditional signature rules?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ3" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    Traditional signature-based IDS (like Snort) requires manual updates for every attack string and fails completely against novel, mutated, or zero-day attacks. Machine Learning learns general statistical anomalies and connection patterns, allowing it to detect previously unseen attacks without manually written rules.
+                </div>
+            </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ4">
+                    <strong>Q4: Why did you choose Random Forest Classifier?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ4" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    Random Forest is an ensemble learning method combining multiple decision trees (Bagging). It has key advantages for network data:
+                    <ul class="mt-1 mb-0">
+                        <li>Handles non-linear relationships and high-dimensional tabular data.</li>
+                        <li>Robust against overfitting compared to a single decision tree.</li>
+                        <li>Requires less hyperparameter tuning than deep neural networks while achieving 99%+ accuracy.</li>
+                        <li>Provides feature importance scores (Gini impurity decrease).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ5">
+                    <strong>Q5: What is the NSL-KDD dataset?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ5" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    NSL-KDD was developed by the Canadian Institute for Cybersecurity to refine the original KDD Cup 99 dataset. It eliminates redundant and duplicate connection records that previously biased classifiers toward frequent records, providing an unbiased benchmark for academic IDS evaluation.
+                </div>
+            </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ6">
+                    <strong>Q6: What are Features in Machine Learning?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ6" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    Features are measurable properties or characteristics extracted from an observation. In our IDS, features include the protocol used (TCP/UDP), connection flags (SF, S0), bytes transferred (src_bytes, dst_bytes), and frequency rates (count of connections in 2 seconds).
+                </div>
+            </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ7">
+                    <strong>Q7: What is Binary Classification?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ7" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    Binary classification is a supervised learning task where each input instance is mapped into exactly one of two mutually exclusive classes. In our system, the target classes are <strong>NORMAL</strong> (benign) and <strong>INTRUSION</strong> (malicious).
+                </div>
+            </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ8">
+                    <strong>Q8: What is the difference between Training and Testing data?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ8" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    <strong>Training Data (80%):</strong> Used by the algorithm to build decision rules and learn internal weights.<br>
+                    <strong>Testing Data (20%):</strong> Strictly held-out data never seen during training, used exclusively to objectively evaluate how well the model generalizes to new traffic.
+                </div>
+            </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ9">
+                    <strong>Q9: What is Overfitting and how did you prevent it?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ9" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    Overfitting occurs when a model memorizes the training data including noise and quirks, performing poorly on unseen data. We prevented overfitting by using a Random Forest ensemble (which averages predictions across 100 decorrelated trees) and constraining tree growth with <code>max_depth=15</code>.
+                </div>
+            </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ10">
+                    <strong>Q10: What is Accuracy?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ10" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    Accuracy is the proportion of total predictions that were correct:
+                    <code>(TP + TN) / (TP + TN + FP + FN)</code>. Our model achieves ~99.8% test accuracy.
+                </div>
+            </div>
+        </div>
+
+        <!-- Q11 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ11">
+                    <strong>Q11: What are Precision, Recall, and F1-Score? Why are they needed?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ11" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    Accuracy alone can be misleading if classes are imbalanced.
+                    <ul>
+                        <li><strong>Precision:</strong> Out of all packets flagged as attacks, how many were truly attacks? <code>TP / (TP + FP)</code>. High precision means minimal false alarms.</li>
+                        <li><strong>Recall:</strong> Out of all actual attacks occurring, how many did the system catch? <code>TP / (TP + FN)</code>. High recall means few missed intrusions.</li>
+                        <li><strong>F1-Score:</strong> The harmonic mean of precision and recall: <code>2 * (P * R) / (P + R)</code>, providing a balanced single performance metric.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q12 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ12">
+                    <strong>Q12: What is a Confusion Matrix?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ12" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    A Confusion Matrix is a 2x2 table that categorizes prediction outcomes:
+                    <ul class="mb-0">
+                        <li><strong>True Negative (TN):</strong> Normal traffic correctly classified as Normal.</li>
+                        <li><strong>False Positive (FP):</strong> Normal traffic incorrectly flagged as an Attack (False alarm).</li>
+                        <li><strong>False Negative (FN):</strong> Attack traffic incorrectly classified as Normal (Dangerous missed intrusion).</li>
+                        <li><strong>True Positive (TP):</strong> Attack traffic correctly detected as an Intrusion.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q13 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ13">
+                    <strong>Q13: How does the Flask backend communicate with the Machine Learning model?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ13" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    The model and preprocessor are saved as binary files (<code>.pkl</code>) using Joblib. When Flask receives an HTTP POST request at <code>/api/predict</code> with JSON network features, it loads the serialized preprocessor to encode and scale the features, feeds them to the loaded Random Forest model's <code>predict()</code> and <code>predict_proba()</code> methods, and returns the result as JSON to the web frontend.
+                </div>
+            </div>
+        </div>
+
+        <!-- Q14 -->
+        <div class="accordion-item bg-transparent border-secondary-subtle">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark-subtle text-light" type="button" data-bs-toggle="collapse" data-bs-target="#vivaQ14">
+                    <strong>Q14: What is the role of Feature Scaling and One-Hot Encoding?</strong>
+                </button>
+            </h2>
+            <div id="vivaQ14" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body text-secondary small">
+                    <strong>One-Hot Encoding:</strong> Converts non-numeric categorical attributes (e.g., protocol: <code>tcp, udp, icmp</code>) into binary indicator columns (0 or 1) so mathematical algorithms can process them without imposing false numerical hierarchies.<br>
+                    <strong>Feature Scaling (StandardScaler):</strong> Normalizes continuous numerical variables (e.g., src_bytes spanning 0 to 100,000 vs. error rates spanning 0 to 1) to mean 0 and variance 1, preventing large-scale variables from dominating computations.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

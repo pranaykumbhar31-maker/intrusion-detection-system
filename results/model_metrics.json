@@ -1,0 +1,124 @@
+{
+    "model_name": "Random Forest Classifier",
+    "algorithm": "Random Forest",
+    "dataset": "NSL-KDD",
+    "n_estimators": 100,
+    "max_depth": 15,
+    "random_state": 42,
+    "features_used": [
+        "duration",
+        "protocol_type",
+        "service",
+        "flag",
+        "src_bytes",
+        "dst_bytes",
+        "logged_in",
+        "count",
+        "srv_count",
+        "same_srv_rate",
+        "diff_srv_rate",
+        "dst_host_srv_count",
+        "dst_host_same_srv_rate"
+    ],
+    "total_samples": 50000,
+    "train_samples": 40000,
+    "test_samples": 10000,
+    "normal_samples": 26555,
+    "intrusion_samples": 23445,
+    "accuracy": 99.77,
+    "precision": 99.77,
+    "recall": 99.77,
+    "f1_score": 99.77,
+    "intrusion_precision": 99.94,
+    "intrusion_recall": 99.57,
+    "intrusion_f1": 99.75,
+    "confusion_matrix": {
+        "matrix": [
+            [
+                5308,
+                3
+            ],
+            [
+                20,
+                4669
+            ]
+        ],
+        "true_negative": 5308,
+        "false_positive": 3,
+        "false_negative": 20,
+        "true_positive": 4669,
+        "labels": [
+            "NORMAL",
+            "INTRUSION"
+        ]
+    },
+    "classification_report": {
+        "NORMAL": {
+            "precision": 0.9962462462462462,
+            "recall": 0.9994351346262474,
+            "f1-score": 0.997838142682583,
+            "support": 5311.0
+        },
+        "INTRUSION": {
+            "precision": 0.9993578767123288,
+            "recall": 0.9957346982298998,
+            "f1-score": 0.9975429975429976,
+            "support": 4689.0
+        },
+        "accuracy": 0.9977,
+        "macro avg": {
+            "precision": 0.9978020614792875,
+            "recall": 0.9975849164280737,
+            "f1-score": 0.9976905701127903,
+            "support": 10000.0
+        },
+        "weighted avg": {
+            "precision": 0.9977052897717924,
+            "recall": 0.9977,
+            "f1-score": 0.9976997491266313,
+            "support": 10000.0
+        }
+    },
+    "top_features": [
+        {
+            "feature": "src_bytes",
+            "importance": 13.61
+        },
+        {
+            "feature": "dst_bytes",
+            "importance": 12.89
+        },
+        {
+            "feature": "flag_SF",
+            "importance": 8.87
+        },
+        {
+            "feature": "same_srv_rate",
+            "importance": 7.65
+        },
+        {
+            "feature": "diff_srv_rate",
+            "importance": 7.31
+        },
+        {
+            "feature": "dst_host_same_srv_rate",
+            "importance": 7.14
+        },
+        {
+            "feature": "dst_host_srv_count",
+            "importance": 7.06
+        },
+        {
+            "feature": "count",
+            "importance": 6.12
+        },
+        {
+            "feature": "logged_in",
+            "importance": 5.98
+        },
+        {
+            "feature": "flag_S0",
+            "importance": 4.5
+        }
+    ]
+}

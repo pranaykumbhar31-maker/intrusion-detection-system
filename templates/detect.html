@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block title %}Detect Intrusion | Machine Learning IDS{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Left Column: Input Panel (Presets + Form) -->
+    <div class="col-lg-7">
+        
+        <!-- MODE B: Quick Sample Traffic Presets (Prominently at the top for instant testing) -->
+        <div class="cyber-card p-4 mb-4 border-accent-glow">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-cyber-primary text-dark fw-bold px-2 py-1">MODE B</span>
+                    <h5 class="fw-bold text-white mb-0">1-Click Traffic Presets (Recommended for Viva)</h5>
+                </div>
+                <span class="text-secondary small d-none d-md-inline">Populates real NSL-KDD test packets</span>
+            </div>
+            
+            <p class="text-secondary small mb-3">
+                Click a preset below to instantly populate the form with realistic network traffic signatures extracted directly from the NSL-KDD dataset.
+            </p>
+
+            <div class="row g-2">
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-outline-success w-100 py-2 d-flex flex-column align-items-center gap-1 preset-btn" id="btnPresetNormal">
+                        <span class="fw-bold"><i class="bi bi-shield-check me-1"></i> Normal Traffic</span>
+                        <span class="small text-secondary font-monospace" style="font-size: 0.75rem;">Legitimate HTTP Web</span>
+                    </button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-outline-danger w-100 py-2 d-flex flex-column align-items-center gap-1 preset-btn" id="btnPresetAttack">
+                        <span class="fw-bold"><i class="bi bi-radioactive me-1"></i> Attack Traffic</span>
+                        <span class="small text-secondary font-monospace" style="font-size: 0.75rem;">Neptune SYN Flood</span>
+                    </button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-outline-warning w-100 py-2 d-flex flex-column align-items-center gap-1 preset-btn" id="btnPresetProbe">
+                        <span class="fw-bold"><i class="bi bi-radar me-1"></i> Port Scan Attack</span>
+                        <span class="small text-secondary font-monospace" style="font-size: 0.75rem;">Portsweep Recon</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preset explanation banner -->
+            <div id="presetDescBox" class="alert alert-secondary bg-dark-subtle border-secondary-subtle mt-3 py-2 px-3 small mb-0 d-none">
+                <strong id="presetDescTitle" class="text-light"></strong>: 
+                <span id="presetDescText" class="text-secondary"></span>
+            </div>
+        </div>
+
+        <!-- MODE A: Manual Feature Input Form -->
+        <div class="cyber-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary-subtle pb-2">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-secondary text-light fw-bold px-2 py-1">MODE A</span>
+                    <h5 class="fw-bold text-white mb-0">Network Traffic Features</h5>
+                </div>
+                <button type="button" class="btn btn-link btn-sm text-secondary text-decoration-none p-0" id="btnResetForm">
+                    <i class="bi bi-arrow-counterclockwise"></i> Reset Defaults
+                </button>
+            </div>
+
+            <form id="detectionForm">
+                
+                <!-- Section 1: Connection Protocol & Handshake -->
+                <div class="mb-4">
+                    <div class="text-cyber-accent small fw-bold text-uppercase mb-2">
+                        <i class="bi bi-ethernet me-1"></i> 1. Connection & Protocol
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label small text-secondary">Protocol Type</label>
+                            <select class="form-select cyber-input" id="protocol_type" name="protocol_type" required>
+                                <option value="tcp" selected>TCP (Transmission Control)</option>
+                                <option value="udp">UDP (User Datagram)</option>
+                                <option value="icmp">ICMP (Ping / Control)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-secondary">Network Service</label>
+                            <select class="form-select cyber-input" id="service" name="service" required>
+                                <option value="http" selected>http (Web Server)</option>
+                                <option value="private">private (Private Service)</option>
+                                <option value="ftp_data">ftp_data (File Transfer)</option>
+                                <option value="smtp">smtp (Mail Transfer)</option>
+                                <option value="telnet">telnet (Remote Shell)</option>
+                                <option value="dns">dns (Domain Lookup)</option>
+                                <option value="ecr_i">ecr_i (ICMP Echo Request)</option>
+                                <option value="eco_i">eco_i (ICMP Echo Reply)</option>
+                                <option value="other">other (Custom Service)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-secondary">Connection Flag</label>
+                            <select class="form-select cyber-input" id="flag" name="flag" required>
+                                <option value="SF" selected>SF (Normal Handshake)</option>
+                                <option value="S0">S0 (SYN Sent, No Reply - Flood)</option>
+                                <option value="REJ">REJ (Connection Rejected)</option>
+                                <option value="RSTO">RSTO (Reset by Originator)</option>
+                                <option value="RSTR">RSTR (Reset by Responder)</option>
+                                <option value="SH">SH (SYN Ack Error)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Data Transfer & Session -->
+                <div class="mb-4">
+                    <div class="text-cyber-accent small fw-bold text-uppercase mb-2">
+                        <i class="bi bi-arrow-left-right me-1"></i> 2. Payload & Transfer
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label small text-secondary" title="Connection duration in seconds">Duration (sec)</label>
+                            <input type="number" class="form-control cyber-input" id="duration" name="duration" min="0" value="0" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-secondary" title="Data bytes sent from source to destination">Source Bytes</label>
+                            <input type="number" class="form-control cyber-input" id="src_bytes" name="src_bytes" min="0" value="232" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-secondary" title="Data bytes sent back from destination to source">Dest Bytes</label>
+                            <input type="number" class="form-control cyber-input" id="dst_bytes" name="dst_bytes" min="0" value="8153" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-secondary" title="1 if successfully authenticated, 0 otherwise">Logged In?</label>
+                            <select class="form-select cyber-input" id="logged_in" name="logged_in" required>
+                                <option value="1" selected>1 (Authenticated)</option>
+                                <option value="0">0 (Unauthenticated)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Traffic Rates & Frequency Counters (Key DoS & Scan Identifiers) -->
+                <div class="mb-4">
+                    <div class="text-cyber-accent small fw-bold text-uppercase mb-2">
+                        <i class="bi bi-speedometer me-1"></i> 3. Connection Rates (Past 2 Seconds Window)
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label small text-secondary" title="Connections to the same destination host in past 2s">Count (Host Conns)</label>
+                            <input type="number" class="form-control cyber-input" id="count" name="count" min="0" value="5" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-secondary" title="Connections to the same service port in past 2s">Srv Count</label>
+                            <input type="number" class="form-control cyber-input" id="srv_count" name="srv_count" min="0" value="5" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-secondary" title="% of connections to the same service (0.0 - 1.0)">Same Srv Rate (0-1)</label>
+                            <input type="number" step="0.01" min="0" max="1" class="form-control cyber-input" id="same_srv_rate" name="same_srv_rate" value="1.0" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-secondary" title="% of connections to different services (0.0 - 1.0)">Diff Srv Rate (0-1)</label>
+                            <input type="number" step="0.01" min="0" max="1" class="form-control cyber-input" id="diff_srv_rate" name="diff_srv_rate" value="0.0" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-secondary" title="Number of connections having the same destination port">Dst Host Srv Count</label>
+                            <input type="number" class="form-control cyber-input" id="dst_host_srv_count" name="dst_host_srv_count" min="0" max="255" value="255" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-secondary" title="% of connections to same service on destination host">Dst Host Same Srv (0-1)</label>
+                            <input type="number" step="0.01" min="0" max="1" class="form-control cyber-input" id="dst_host_same_srv_rate" name="dst_host_same_srv_rate" value="1.0" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-cyber-primary btn-lg fw-bold py-3 shadow-lg" id="btnPredict">
+                        <span id="predictBtnSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                        <i class="bi bi-shield-shaded me-1" id="predictBtnIcon"></i>
+                        <span>PREDICT ACTIVITY</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Right Column: Prediction Results Panel -->
+    <div class="col-lg-5">
+        
+        <!-- Result Card Placeholder / Live Card -->
+        <div class="cyber-card p-4 h-100 position-sticky" style="top: 80px;" id="resultContainer">
+            
+            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary-subtle pb-2">
+                <h5 class="fw-bold text-white mb-0">
+                    <i class="bi bi-cpu-fill text-cyber-accent me-2"></i>
+                    Inference Result
+                </h5>
+                <span class="badge bg-secondary-subtle text-secondary small" id="inferenceStatusBadge">Awaiting Input</span>
+            </div>
+
+            <!-- Idle State (Before User Clicks Predict) -->
+            <div id="idleState" class="text-center py-5">
+                <div class="mb-3">
+                    <i class="bi bi-shield-check text-secondary opacity-25" style="font-size: 5rem;"></i>
+                </div>
+                <h5 class="text-white fw-semibold">Ready to Classify Traffic</h5>
+                <p class="text-secondary small px-3">
+                    Select a preset example above or customize the features manually, then click 
+                    <strong class="text-cyber-accent">PREDICT ACTIVITY</strong> to evaluate the packet.
+                </p>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="text-center py-5 d-none">
+                <div class="spinner-border text-cyber-primary mb-3" style="width: 3.5rem; height: 3.5rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5 class="text-white fw-bold">Evaluating Network Features...</h5>
+                <p class="text-secondary small">Passing through One-Hot Encoder, Scaler, and Random Forest trees</p>
+            </div>
+
+            <!-- Active Result State (Shown after classification) -->
+            <div id="activeResultState" class="d-none">
+                
+                <!-- Big Banner Badge -->
+                <div class="result-banner p-4 rounded-3 text-center mb-4" id="resultBanner">
+                    <div class="result-icon-wrapper mb-2" id="resultIcon">
+                        <!-- Filled by JS -->
+                    </div>
+                    <div class="display-6 fw-extrabold text-uppercase letter-spacing-1" id="resultLabel">
+                        NORMAL ACTIVITY
+                    </div>
+                    <div class="small fw-semibold mt-1 opacity-75" id="resultSubtext">
+                        Benign Network Traffic
+                    </div>
+                </div>
+
+                <!-- Metrics Grid: Probability & Risk Level -->
+                <div class="row g-2 mb-4">
+                    <div class="col-6">
+                        <div class="p-3 rounded-2 bg-dark-subtle border border-secondary-subtle text-center">
+                            <div class="text-secondary small fw-semibold text-uppercase">Probability</div>
+                            <div class="h3 fw-bold text-white mb-0 font-monospace mt-1" id="resultConfidence">
+                                --%
+                            </div>
+                            <div class="text-secondary" style="font-size: 0.7rem;">Confidence Score</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 rounded-2 bg-dark-subtle border border-secondary-subtle text-center">
+                            <div class="text-secondary small fw-semibold text-uppercase">Risk Level</div>
+                            <div class="h3 fw-bold mb-0 mt-1" id="resultRiskLevel">
+                                LOW
+                            </div>
+                            <div class="text-secondary" style="font-size: 0.7rem;">Security Threat Index</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Probability Bar Breakdown -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between small text-secondary mb-1">
+                        <span>Normal: <strong id="probNormalText" class="text-success">0%</strong></span>
+                        <span>Intrusion: <strong id="probIntrusionText" class="text-danger">0%</strong></span>
+                    </div>
+                    <div class="progress" style="height: 10px; background-color: #212529;">
+                        <div class="progress-bar bg-success" role="progressbar" id="probNormalBar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" id="probIntrusionBar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+
+                <!-- Academic Explanation Box -->
+                <div class="explanation-box p-3 rounded-2 border border-secondary-subtle bg-dark-subtle">
+                    <div class="d-flex align-items-center gap-2 mb-2 text-cyber-accent small fw-bold">
+                        <i class="bi bi-info-circle-fill"></i> Model Explanation & Disclaimer
+                    </div>
+                    <p class="text-light small mb-0 lh-base" id="resultExplanation">
+                        <!-- Dynamic explanation -->
+                    </p>
+                </div>
+
+                <!-- Quick Action to Re-test -->
+                <div class="mt-4 pt-2 text-center">
+                    <button type="button" class="btn btn-sm btn-outline-secondary px-3" onclick="document.getElementById('detectionForm').scrollIntoView({behavior: 'smooth'})">
+                        <i class="bi bi-pencil-square me-1"></i> Edit Features & Re-classify
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Error Banner -->
+            <div id="errorState" class="alert alert-danger mt-3 d-none">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <span id="errorMessage">An error occurred during prediction.</span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Pass preset data directly to the frontend script
+    window.PRESET_SAMPLES = {{ presets | tojson if presets else '{}' }};
+</script>
+{% endblock %}
